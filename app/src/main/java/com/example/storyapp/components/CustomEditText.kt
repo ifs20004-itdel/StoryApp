@@ -2,19 +2,31 @@ package com.example.storyapp.components
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.renderscript.ScriptGroup.Input
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.storyapp.R
+import com.example.storyapp.databinding.ActivityMainBinding
+import com.example.storyapp.utils.isValidEmail
+import com.google.android.material.internal.TextDrawableHelper
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class CustomEditText: AppCompatEditText, View.OnTouchListener {
 
     private lateinit var clearButtonImage: Drawable
+
     constructor(context: Context):super(context){
         init()
     }
@@ -30,26 +42,37 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
 
     }
-
     private fun init()
     {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black)as Drawable
         setOnTouchListener(this)
 
+//        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 //                 Do nothing
             }
-
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0.toString().isNotEmpty()) showClearButton() else hideClearButton()
+                val parentLayout = parent.parent as TextInputLayout
+                if(p0.toString().isNotEmpty())
+                {
+                    showClearButton()
+                    if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)){
+                        if(!p0.isValidEmail()) parentLayout.error = resources.getString(R.string.app_name) else parentLayout.error = null
+                    }else if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) && p0.toString().length<8){
+                        parentLayout.error = resources.getString(R.string.password_validation)
+                    }else{
+                        parentLayout.error = null
+                    }
+                } else {
+                    hideClearButton()
+                    parentLayout.error = resources.getString(R.string.empty_error)
+                }
             }
-
             override fun afterTextChanged(p0: Editable?) {
-//                Do nothing
             }
         })
-
     }
 
     private fun showClearButton(){

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".view.main.MainActivity"
-    android:background="@drawable/app_theme_potrait">
+    android:background="@drawable/app_theme"
+    >
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/app_logo"
         android:layout_width="124dp"
@@ -43,14 +44,11 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
             app:helperText="@string/required"
             app:helperTextTextColor="@color/red"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@null"
+            android:layout_marginBottom="36dp"
             >
             <com.example.storyapp.components.CustomEditText
                 android:id="@+id/login_email"
@@ -58,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:textColorHint="@color/white"
-                android:inputType="textEmailAddress"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 

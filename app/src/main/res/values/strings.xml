@@ -4,6 +4,13 @@
     <string name="password">Password</string>
     <string name="welcome">Welcome Back</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="register_message">New User? Register</string>
     <string name="required">*required</string>
+    <string name="name">Name</string>
+    <string name="login_message">Already have an account? Login</string>
+    <string name="empty_error">Please fill out this field</string>
+    <string name="password_validation">Must be more than 7 characters</string>
+    <string name="email_validation">Enter a valid email address</string>
+
 </resources>

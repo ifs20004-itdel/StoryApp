@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".view.main.MainActivity"
-    android:background="@drawable/app_theme_potrait">
+    app:layoutDescription="@xml/activity_register_scene"
+    tools:context=".view.register.RegisterActivity"
+    android:background="@drawable/app_theme"
+    >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/app_logo"
         android:layout_width="124dp"
@@ -19,23 +21,24 @@
         />
 
     <LinearLayout
-        android:id="@+id/login_form"
+        android:id="@+id/register_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:alpha="0"
         android:paddingHorizontal="36dp"
+        android:paddingTop="40dp"
         >
         <TextView
-            android:id="@+id/welcome"
+            android:id="@+id/register_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/welcome"
-            android:layout_marginBottom="36dp"
+            android:text="@string/register"
+            android:layout_marginBottom="18dp"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textSize="24sp"
@@ -43,17 +46,36 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_email"
+            android:id="@+id/text_input_layout_name_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
             app:helperText="@string/required"
             app:helperTextTextColor="@color/red"
+            android:layout_marginBottom="18dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
             >
             <com.example.storyapp.components.CustomEditText
-                android:id="@+id/login_email"
+                android:id="@+id/register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:textColorHint="@color/white"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_email_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:helperText="@string/required"
+            app:helperTextTextColor="@color/red"
+            android:layout_marginBottom="18dp"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@null"
+            >
+            <com.example.storyapp.components.CustomEditText
+                android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
@@ -63,17 +85,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout_password"
+            android:id="@+id/text_input_layout_password_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:helperText="@string/required"
             app:helperTextTextColor="@color/red"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="18dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
             >
             <com.example.storyapp.components.CustomEditText
-                android:id="@+id/login_password"
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -86,19 +108,20 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login"
+            android:text="@string/register"
             android:backgroundTint="@color/dark_blue"
+            android:textColor="@color/white"
             />
     </LinearLayout>
     <TextView
-        android:id="@+id/register_label"
+        android:id="@+id/login_label"
         android:alpha="0"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_form"
-        android:text="@string/register_message"
+        app:layout_constraintTop_toBottomOf="@+id/register_form"
+        android:text="@string/login_message"
         android:textColor="@color/white"
         android:textSize="12sp"
         />
