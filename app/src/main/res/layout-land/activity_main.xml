@@ -46,8 +46,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/red"
             android:layout_marginBottom="36dp"
             >
             <com.example.storyapp.components.CustomEditText
@@ -63,8 +61,6 @@
             android:id="@+id/text_input_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/red"
             android:layout_marginBottom="36dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"

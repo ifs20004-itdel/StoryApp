@@ -1,53 +1,122 @@
 package com.example.storyapp.view.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import android.content.ContentValues
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.storyapp.data.response.LoginResponse
+import com.example.storyapp.data.response.RegisterResponse
 import com.example.storyapp.data.retrofit.ApiConfig
 import com.example.storyapp.model.UserModel
 import com.example.storyapp.model.UserPreference
+import com.example.storyapp.utils.AuthenticationCallback
 import kotlinx.coroutines.launch
-import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.log
 
 class MainViewModel(private val pref: UserPreference):ViewModel() {
     fun getUser(): LiveData<UserModel>{
         return pref.getUser().asLiveData()
     }
-
     fun login(){
         viewModelScope.launch {
             pref.login()
         }
     }
+    fun saveUser(user: UserModel){
+        viewModelScope.launch {
+            pref.saveUser(user)
+        }
+    }
+    fun logout(){
+        viewModelScope.launch {
+            pref.logout()
+        }
+    }
 
-    fun validateLogin(email:String, password: String){
+    fun validateLogin(email:String, password: String, stateCallback: AuthenticationCallback){
         val apiService = ApiConfig().getApiService()
-        val body = mapOf(
-            "email" to email,
-            "password" to password
-        ) as RequestBody
+        val json = """
+            {
+            "email": "$email",
+            "password": "$password"
+            }
+        """.trimIndent()
+        val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         val login = apiService.loginUser(body)
         login.enqueue(object :Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if(response.isSuccessful){
+                    login()
                     val responseBody = response.body()
                     if(responseBody !=null && !responseBody.error){
-//                        todo
+                        val logged = responseBody.loginResult
+                        saveUser(
+                            UserModel(
+                                logged.userId,
+                                logged.name,
+                                logged.token,
+                                true
+                            )
+                        )
+                    }else{
+                        stateCallback.onError(true)
                     }
+                }else{
+                    stateCallback.onError(true)
+                }
+            }
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
+                stateCallback.onError(true)
+            }
+        })
+    }
+
+    fun validateRegister(name:String, email:String, password: String, stateCallback: AuthenticationCallback){
+        val apiService = ApiConfig().getApiService()
+        val json = """
+            { 
+                "name" : "$name",
+                "email": "$email",
+                "password": "$password"
+            }
+        """.trimIndent()
+        val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        val register = apiService.registerUser(body)
+        register.enqueue(object : Callback<RegisterResponse>{
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                if(response.isSuccessful){
+                    login()
+                    val responseBody = response.body()
+                    if(responseBody !=null && !responseBody.error){
+//                        val logged = responseBody.
+//                        saveUser(
+//                            UserModel(
+//                                logged.userId,
+//                                logged.name,
+//                                logged.token,
+//                                true
+//                            )
+//                        )
+                    }else{
+                        stateCallback.onError(true)
+                    }
+                }else{
+                    stateCallback.onError(true)
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
+                stateCallback.onError(true)
             }
 
         })
     }
-
 }

@@ -9,9 +9,13 @@
     <string name="required">*wajib diisi</string>
     <string name="register">Daftar</string>
     <string name="name">Nama</string>
-    <string name="login_message">Sudah memiliki akun? Login</string>
+    <string name="login_message">Sudah memiliki akun? Masuk</string>
     <string name="empty_error">Silahkan isi kolom ini</string>
     <string name="password_validation">Harus lebih dari 7 karakter</string>
     <string name="email_validation">Entri alamat email yang valid</string>
+    <string name="invalid">Email atau password salah</string>
+    <string name="logout">Logout</string>
+
+
 
 </resources>

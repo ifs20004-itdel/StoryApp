@@ -3,29 +3,29 @@ package com.example.storyapp.view.main
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.*
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import com.example.storyapp.R
 import com.example.storyapp.ViewModelFactory
 import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.model.UserPreference
+import com.example.storyapp.utils.AuthenticationCallback
 import com.example.storyapp.utils.generateLinks
-import com.example.storyapp.view.register.RegisterActivity
-import java.util.Locale
-import androidx.datastore.preferences.core.Preferences
 import com.example.storyapp.view.liststory.ListStoryActivity
+import com.example.storyapp.view.register.RegisterActivity
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), AuthenticationCallback{
 
     private var binding : ActivityMainBinding? = null
     private lateinit var mainViewModel: MainViewModel
@@ -37,8 +37,9 @@ class MainActivity : AppCompatActivity(){
         val registerLabel  = binding?.registerLabel
 
         registerLabel?.generateLinks(
-            Pair(if (Locale.getDefault().country.equals("US")) "Register" else "Daftar", View.OnClickListener {
+            Pair(resources.getString(R.string.register) , View.OnClickListener {
                 val intent = Intent(this@MainActivity, RegisterActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             })
         )
@@ -68,12 +69,10 @@ class MainActivity : AppCompatActivity(){
 
         mainViewModel.getUser().observe(this){
          user ->
-            if(user.isLogin){
+            if(user.state){
                 val intent = Intent(this@MainActivity, ListStoryActivity::class.java )
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-            }else{
-                startActivity(Intent(this@MainActivity,MainActivity::class.java))
-                finish()
             }
         }
     }
@@ -82,23 +81,22 @@ class MainActivity : AppCompatActivity(){
         binding?.btnLogin?.setOnClickListener{
             val email = binding?.loginEmail?.text.toString()
             val password = binding?.loginPassword?.text.toString()
-
-            mainViewModel.validateLogin(email, password)
-//Perlu penambahan
-            mainViewModel.login()
-            AlertDialog.Builder(this).apply {
-                setTitle("Success!")
-                setMessage("Anda berhasil login.")
-                setPositiveButton("OK"){
-                    _,_->
-                    val intent = Intent(context, ListStoryActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
+            when{
+                email.isEmpty()->{
+                    binding?.textInputLayoutEmail?.error = resources.getString(R.string.empty_error)
+                }
+                password.isEmpty()->{
+                    binding?.textInputLayoutPassword?.error = resources.getString(R.string.empty_error)
+                }
+                else->{
+                    mainViewModel.validateLogin(email,password, this)
                 }
             }
-
         }
     }
 
+    override fun onError(isLogin: Boolean?) {
+        binding?.textInputLayoutEmail?.error = resources.getString(R.string.invalid)
+        binding?.textInputLayoutPassword?.error = resources.getString(R.string.invalid)
+    }
 }

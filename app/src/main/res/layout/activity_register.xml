@@ -49,8 +49,6 @@
             android:id="@+id/text_input_layout_name_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/red"
             android:layout_marginBottom="18dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
@@ -68,8 +66,6 @@
             android:id="@+id/text_input_layout_email_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/red"
             android:layout_marginBottom="18dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
@@ -88,8 +84,6 @@
             android:id="@+id/text_input_layout_password_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:helperText="@string/required"
-            app:helperTextTextColor="@color/red"
             android:layout_marginBottom="18dp"
             app:errorEnabled="true"
             app:errorIconDrawable="@null"
@@ -105,7 +99,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"

@@ -47,11 +47,8 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black)as Drawable
         setOnTouchListener(this)
 
-//        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                 Do nothing
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val parentLayout = parent.parent as TextInputLayout
@@ -59,7 +56,7 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
                 {
                     showClearButton()
                     if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)){
-                        if(!p0.isValidEmail()) parentLayout.error = resources.getString(R.string.app_name) else parentLayout.error = null
+                        if(!p0.isValidEmail()) parentLayout.error = resources.getString(R.string.email_validation) else parentLayout.error = null
                     }else if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) && p0.toString().length<8){
                         parentLayout.error = resources.getString(R.string.password_validation)
                     }else{
