@@ -8,6 +8,7 @@ import android.text.*
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -95,8 +96,9 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
         }
     }
 
+
     override fun onError(isLogin: Boolean?) {
-        binding?.textInputLayoutEmail?.error = resources.getString(R.string.invalid)
-        binding?.textInputLayoutPassword?.error = resources.getString(R.string.invalid)
+        Toast.makeText(this@MainActivity,resources.getString(R.string.invalid), Toast.LENGTH_SHORT).show()
     }
+
 }

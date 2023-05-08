@@ -13,9 +13,11 @@
     <string name="empty_error">Silahkan isi kolom ini</string>
     <string name="password_validation">Harus lebih dari 7 karakter</string>
     <string name="email_validation">Entri alamat email yang valid</string>
-    <string name="invalid">Email atau password salah</string>
+    <string name="invalid">Email atau Password salah</string>
     <string name="logout">Logout</string>
-
+    <string name="register_fail">Pendaftaran gagal! Coba lagi.</string>
+    <string name="register_success">Pendaftaran berhasil</string>
+    <string name="success">Selamat!</string>
 
 
 </resources>

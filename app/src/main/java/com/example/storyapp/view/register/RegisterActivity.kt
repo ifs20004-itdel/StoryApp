@@ -3,12 +3,14 @@ package com.example.storyapp.view.register
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.*
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -19,7 +21,7 @@ import com.example.storyapp.databinding.ActivityRegisterBinding
 import com.example.storyapp.model.UserPreference
 import com.example.storyapp.utils.AuthenticationCallback
 import com.example.storyapp.utils.generateLinks
-import com.example.storyapp.view.liststory.ListStoryActivity
+import com.example.storyapp.utils.isValidEmail
 import com.example.storyapp.view.main.MainActivity
 import com.example.storyapp.view.main.MainViewModel
 import java.util.*
@@ -35,7 +37,9 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
         super.onCreate(savedInstanceState)
         setContentView(binding?.root)
         setupView()
+        setupViewModel()
         setupAction()
+
 
         val loginLabel = binding?.loginLabel
         loginLabel?.generateLinks(
@@ -65,15 +69,6 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
-
-        mainViewModel.getUser().observe(this){
-                user ->
-            if(user.state){
-                val intent = Intent(this@RegisterActivity, ListStoryActivity::class.java )
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        }
     }
 
     private fun setupAction(){
@@ -88,17 +83,40 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
                 email.isEmpty()->{
                     binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.empty_error)
                 }
+                !email.isValidEmail()->{
+                    binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.email_validation)
+                }
                 password.isEmpty()->{
                     binding?.textInputLayoutPasswordRegister?.error = resources.getString(R.string.empty_error)
                 }
                 else->{
-                    mainViewModel.validateRegister(name,email,password, this)
+                    mainViewModel.validateRegister(name, email, password, this)
                 }
             }
         }
     }
 
     override fun onError(isLogin: Boolean?) {
-        TODO("Not yet implemented")
+        if(isLogin == true){
+            Toast.makeText(this@RegisterActivity, resources.getString(R.string.register_fail), Toast.LENGTH_SHORT).show()
+        }else{
+            val builder = AlertDialog.Builder(this@RegisterActivity)
+            builder
+
+                .setTitle(R.string.success)
+                .setMessage(R.string.register_success)
+                .setPositiveButton(R.string.login){
+                        _,_->
+                    val intent = Intent(
+                        this@RegisterActivity,
+                        MainActivity::class.java
+                    )
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+            builder.create()
+            builder.show()
+        }
     }
 }

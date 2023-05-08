@@ -49,9 +49,9 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
         login.enqueue(object :Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if(response.isSuccessful){
-                    login()
                     val responseBody = response.body()
                     if(responseBody !=null && !responseBody.error){
+                        login()
                         val logged = responseBody.loginResult
                         saveUser(
                             UserModel(
@@ -86,24 +86,15 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
         """.trimIndent()
         val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         val register = apiService.registerUser(body)
-        register.enqueue(object : Callback<RegisterResponse>{
+        register.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
                 if(response.isSuccessful){
-                    login()
                     val responseBody = response.body()
-                    if(responseBody !=null && !responseBody.error){
-//                        val logged = responseBody.
-//                        saveUser(
-//                            UserModel(
-//                                logged.userId,
-//                                logged.name,
-//                                logged.token,
-//                                true
-//                            )
-//                        )
+                    if(responseBody!=null && !responseBody.error){
+                        stateCallback.onError(false)
                     }else{
                         stateCallback.onError(true)
                     }
@@ -111,12 +102,10 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
                     stateCallback.onError(true)
                 }
             }
-
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
                 stateCallback.onError(true)
             }
-
         })
     }
 }

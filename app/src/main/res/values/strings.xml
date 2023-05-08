@@ -12,7 +12,10 @@
     <string name="empty_error">Please fill out this field</string>
     <string name="password_validation">Must be more than 7 characters</string>
     <string name="email_validation">Enter a valid email address</string>
-    <string name="invalid">Email or password wrong</string>
+    <string name="invalid">Email or Password wrong</string>
     <string name="logout">Logout</string>
+    <string name="register_fail">Registration Failed! Please try again.</string>
+    <string name="register_success">Your registration has been successful</string>
+    <string name="success">Congratulations!</string>
 
 </resources>

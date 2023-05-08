@@ -2,25 +2,17 @@ package com.example.storyapp.components
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.renderscript.ScriptGroup.Input
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.storyapp.R
-import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.utils.isValidEmail
-import com.google.android.material.internal.TextDrawableHelper
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class CustomEditText: AppCompatEditText, View.OnTouchListener {
