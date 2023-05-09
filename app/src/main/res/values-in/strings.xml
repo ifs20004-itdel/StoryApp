@@ -18,6 +18,7 @@
     <string name="register_fail">Pendaftaran gagal! Coba lagi.</string>
     <string name="register_success">Pendaftaran berhasil</string>
     <string name="success">Selamat!</string>
-
+    <string name="date">Tanggal</string>
+    <string name="description">Deskripsi</string>
 
 </resources>

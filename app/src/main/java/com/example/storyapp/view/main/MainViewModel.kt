@@ -30,11 +30,6 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
             pref.saveUser(user)
         }
     }
-    fun logout(){
-        viewModelScope.launch {
-            pref.logout()
-        }
-    }
 
     fun validateLogin(email:String, password: String, stateCallback: AuthenticationCallback){
         val apiService = ApiConfig().getApiService()

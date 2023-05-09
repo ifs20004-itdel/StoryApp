@@ -17,5 +17,7 @@
     <string name="register_fail">Registration Failed! Please try again.</string>
     <string name="register_success">Your registration has been successful</string>
     <string name="success">Congratulations!</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
 
 </resources>
