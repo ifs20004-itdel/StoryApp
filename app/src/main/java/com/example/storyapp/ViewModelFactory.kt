@@ -3,6 +3,7 @@ package com.example.storyapp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.model.UserPreference
+import com.example.storyapp.view.detailstory.DetailStoryViewModel
 import com.example.storyapp.view.liststory.ListStoryViewModel
 import com.example.storyapp.view.main.MainViewModel
 
@@ -15,6 +16,9 @@ class ViewModelFactory(private val pref: UserPreference): ViewModelProvider.NewI
             }
             modelClass.isAssignableFrom(ListStoryViewModel::class.java)->{
                 ListStoryViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(DetailStoryViewModel::class.java)->{
+                DetailStoryViewModel(pref) as T
             }
             else-> throw IllegalArgumentException("Unknown ViewModel class: "+modelClass.name)
         }

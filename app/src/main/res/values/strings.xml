@@ -19,5 +19,10 @@
     <string name="success">Congratulations!</string>
     <string name="date">Date</string>
     <string name="description">Description</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="add">Add</string>
+    <string name="story_list">List of Story</string>
+    <string name="story_add">Add Story</string>
 
 </resources>

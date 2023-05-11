@@ -3,6 +3,7 @@ package com.example.storyapp.view.liststory
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -18,37 +19,49 @@ import com.example.storyapp.data.response.AllStoriesResponse
 import com.example.storyapp.data.response.StoryResponse
 import com.example.storyapp.databinding.ActivityListStoryBinding
 import com.example.storyapp.model.UserPreference
-import com.example.storyapp.model.UserStoryModel
+import com.example.storyapp.view.addstory.AddStoryActivity
 import com.example.storyapp.view.detailstory.DetailStoryActivity
 import com.example.storyapp.view.main.MainActivity
-import com.faltenreich.skeletonlayout.createSkeleton
+import com.faltenreich.skeletonlayout.Skeleton
 
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 
 class ListStoryActivity : AppCompatActivity() {
-
     private var binding:ActivityListStoryBinding? = null
     private lateinit var listStoryViewModel: ListStoryViewModel
+    private lateinit var skeleton: Skeleton
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityListStoryBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding?.root)
 
+        skeleton = binding?.skeletonStoryList!!
+        skeleton.showSkeleton()
         setupViewModel()
 
-//        val skeleton = binding?.rvListStory?.createSkeleton()
-//        skeleton?.showSkeleton()
+        @Suppress("DEPRECATION")
+        val handler = Handler()
+        handler.postDelayed({
+            skeleton.showOriginal()
+        }, 2000)
 
         binding?.rvListStory?.apply {
             layoutManager = LinearLayoutManager(context)
-
             val itemDecoration =
                 DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation)
             binding?.rvListStory?.addItemDecoration(itemDecoration)
             setHasFixedSize(true)
+
         }
+
+        binding?.btnAdd?.setOnClickListener{
+            val intent = Intent(this@ListStoryActivity, AddStoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        supportActionBar?.title = resources.getString(R.string.story_list)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,6 +81,7 @@ class ListStoryActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     private fun setupViewModel(){
         listStoryViewModel =  ViewModelProvider(
             this,
@@ -83,7 +97,6 @@ class ListStoryActivity : AppCompatActivity() {
             if(result !=null){
                 setDataStory(result)
             }
-
         }
     }
 
@@ -92,9 +105,9 @@ class ListStoryActivity : AppCompatActivity() {
         binding?.rvListStory?.adapter = adapter
         adapter.setOnItemClickCallback(object :ListStoryAdapter.OnItemClickCallback{
             override fun onItemClicked(storyResponse: StoryResponse) {
-                val story = UserStoryModel(storyResponse.name,storyResponse.photoUrl, storyResponse.description, storyResponse.createdAt)
                 val intent = Intent(this@ListStoryActivity,DetailStoryActivity::class.java)
-                intent.putExtra(DetailStoryActivity.storyResponse, story)
+                intent.putExtra("id", storyResponse.id)
+                startActivity(intent)
             }
         })
     }

@@ -39,8 +39,6 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
         setupView()
         setupViewModel()
         setupAction()
-
-
         val loginLabel = binding?.loginLabel
         loginLabel?.generateLinks(
             Pair(resources.getString(R.string.login), View.OnClickListener {

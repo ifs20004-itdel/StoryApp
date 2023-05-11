@@ -25,7 +25,6 @@ class ListStoryAdapter(private val storyList: List<StoryResponse>): RecyclerView
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(storyList[position])
-
         holder.itemView.setOnClickListener{
             onItemClickCallback.onItemClicked(
                 storyList[position]
@@ -44,12 +43,9 @@ class ListStoryAdapter(private val storyList: List<StoryResponse>): RecyclerView
             Glide.with(itemView.context)
                 .load(story.photoUrl)
                 .into(binding.storyImage)
-
         }
     }
-
     interface OnItemClickCallback{
         fun onItemClicked(storyResponse: StoryResponse)
     }
-
 }

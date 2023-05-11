@@ -20,5 +20,9 @@
     <string name="success">Selamat!</string>
     <string name="date">Tanggal</string>
     <string name="description">Deskripsi</string>
-
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="add">Tambah</string>
+    <string name="story_list">Daftar Cerita</string>
+    <string name="story_add">Tambah Cerita</string>
 </resources>
