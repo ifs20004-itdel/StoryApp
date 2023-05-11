@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
             }
         }
     }
-
     private fun setupAction(){
         binding?.btnLogin?.setOnClickListener{
             val email = binding?.loginEmail?.text.toString()
@@ -95,8 +94,6 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
             }
         }
     }
-
-
     override fun onError(isLogin: Boolean?) {
         Toast.makeText(this@MainActivity,resources.getString(R.string.invalid), Toast.LENGTH_SHORT).show()
     }

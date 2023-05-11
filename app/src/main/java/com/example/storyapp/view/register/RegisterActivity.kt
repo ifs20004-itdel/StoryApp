@@ -100,7 +100,6 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
         }else{
             val builder = AlertDialog.Builder(this@RegisterActivity)
             builder
-
                 .setTitle(R.string.success)
                 .setMessage(R.string.register_success)
                 .setPositiveButton(R.string.login){

@@ -24,5 +24,10 @@
     <string name="gallery">Galeri</string>
     <string name="add">Tambah</string>
     <string name="story_list">Daftar Cerita</string>
-    <string name="story_add">Tambah Cerita</string>
+    <string name="upload">Upload</string>
+    <string name="input_picture">Silakan masukkan berkas gambar terlebih dahulu! </string>
+    <string name="upload_success">Berhasil diupload</string>
+    <string name="choose_picture">Pilih Gambar</string>
+    <string name="detail_story">Detail Cerita</string>
+
 </resources>

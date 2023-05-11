@@ -27,7 +27,6 @@ import com.faltenreich.skeletonlayout.Skeleton
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-
 class ListStoryActivity : AppCompatActivity() {
     private var binding:ActivityListStoryBinding? = null
     private lateinit var listStoryViewModel: ListStoryViewModel

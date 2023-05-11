@@ -17,7 +17,6 @@ import retrofit2.Response
 
 class ListStoryViewModel(private val userPreference: UserPreference):ViewModel() {
 
-
     private val _story = MutableLiveData<AllStoriesResponse?>()
     val story: LiveData<AllStoriesResponse?> = _story
 

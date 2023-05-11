@@ -10,7 +10,7 @@ interface ApiService {
     @POST("register")
     fun registerUser(
         @Body registerUser: RequestBody
-    ):Call<RegisterResponse>
+    ):Call<RegisterAndUploadResponse>
 
     @POST("login")
     fun loginUser(
@@ -30,4 +30,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): Call<DetailStoryResponse>
+
+    @Multipart
+    @POST("stories")
+    fun uploadImage(
+        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ): Call<RegisterAndUploadResponse>
 }

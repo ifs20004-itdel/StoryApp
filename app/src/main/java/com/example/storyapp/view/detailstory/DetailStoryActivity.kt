@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.storyapp.R
 import com.example.storyapp.ViewModelFactory
 import com.example.storyapp.data.response.StoryResponse
 import com.example.storyapp.databinding.ActivityDetailStoryBinding
@@ -35,7 +36,7 @@ class DetailStoryActivity : AppCompatActivity() {
             skeleton.showOriginal()
         }, 2000)
         setupViewModel()
-//        supportActionBar?.title = resources.getString(R.string.detail_story)
+        supportActionBar?.title = resources.getString(R.string.detail_story)
     }
 
     private fun setupViewModel(){

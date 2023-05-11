@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.storyapp.data.response.LoginResponse
-import com.example.storyapp.data.response.RegisterResponse
+import com.example.storyapp.data.response.RegisterAndUploadResponse
 import com.example.storyapp.data.retrofit.ApiConfig
 import com.example.storyapp.model.UserModel
 import com.example.storyapp.model.UserPreference
@@ -81,10 +81,10 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
         """.trimIndent()
         val body = json.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
         val register = apiService.registerUser(body)
-        register.enqueue(object : Callback<RegisterResponse> {
+        register.enqueue(object : Callback<RegisterAndUploadResponse> {
             override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
+                call: Call<RegisterAndUploadResponse>,
+                response: Response<RegisterAndUploadResponse>
             ) {
                 if(response.isSuccessful){
                     val responseBody = response.body()
@@ -97,7 +97,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
                     stateCallback.onError(true)
                 }
             }
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+            override fun onFailure(call: Call<RegisterAndUploadResponse>, t: Throwable) {
                 Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
                 stateCallback.onError(true)
             }
