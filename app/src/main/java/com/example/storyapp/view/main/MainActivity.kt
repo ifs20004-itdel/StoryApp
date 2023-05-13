@@ -28,16 +28,15 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 class MainActivity : AppCompatActivity(), AuthenticationCallback{
 
-    private var binding : ActivityMainBinding? = null
+    private lateinit var binding : ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
-        val registerLabel  = binding?.registerLabel
-
-        registerLabel?.generateLinks(
+        setContentView(binding.root)
+        val registerLabel  = binding.registerLabel
+        registerLabel.generateLinks(
             Pair(resources.getString(R.string.register) , View.OnClickListener {
                 val intent = Intent(this@MainActivity, RegisterActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
         setupView()
         setupViewModel()
         setupAction()
+
     }
 
     private fun setupView(){
@@ -76,17 +76,21 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
                 startActivity(intent)
             }
         }
+        mainViewModel.isLoading.observe(this){
+            isLoading->
+            showLoading(isLoading)
+        }
     }
     private fun setupAction(){
-        binding?.btnLogin?.setOnClickListener{
-            val email = binding?.loginEmail?.text.toString()
-            val password = binding?.loginPassword?.text.toString()
+        binding.btnLogin.setOnClickListener{
+            val email = binding.loginEmail.text.toString()
+            val password = binding.loginPassword.text.toString()
             when{
                 email.isEmpty()->{
-                    binding?.textInputLayoutEmail?.error = resources.getString(R.string.empty_error)
+                    binding.textInputLayoutEmail?.error = resources.getString(R.string.empty_error)
                 }
                 password.isEmpty()->{
-                    binding?.textInputLayoutPassword?.error = resources.getString(R.string.empty_error)
+                    binding.textInputLayoutPassword.error = resources.getString(R.string.empty_error)
                 }
                 else->{
                     mainViewModel.validateLogin(email,password, this)
@@ -94,8 +98,18 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
             }
         }
     }
+
+    private fun showLoading(isLoading: Boolean){
+        if(isLoading){
+            binding.progressBar.visibility  = View.VISIBLE
+            binding.progressBar.progress = 0
+            binding.progressBar.max = 100
+        }else{
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
     override fun onError(isLogin: Boolean?) {
         Toast.makeText(this@MainActivity,resources.getString(R.string.invalid), Toast.LENGTH_SHORT).show()
     }
-
 }

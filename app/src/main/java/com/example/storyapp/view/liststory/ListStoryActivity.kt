@@ -52,14 +52,12 @@ class ListStoryActivity : AppCompatActivity() {
                 DividerItemDecoration(context, (layoutManager as LinearLayoutManager).orientation)
             binding?.rvListStory?.addItemDecoration(itemDecoration)
             setHasFixedSize(true)
-
         }
 
         binding?.btnAdd?.setOnClickListener{
             val intent = Intent(this@ListStoryActivity, AddStoryActivity::class.java)
             startActivity(intent)
         }
-
         supportActionBar?.title = resources.getString(R.string.story_list)
     }
 

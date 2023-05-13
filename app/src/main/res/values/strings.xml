@@ -10,6 +10,7 @@
     <string name="name">Name</string>
     <string name="login_message">Already have an account? Login</string>
     <string name="empty_error">Please fill out this field</string>
+    <string name="empty_description">Description can\'t be empty</string>
     <string name="password_validation">Must be more than 7 characters</string>
     <string name="email_validation">Enter a valid email address</string>
     <string name="invalid">Email or Password wrong</string>
@@ -28,5 +29,6 @@
     <string name="upload_success">Upload success</string>
     <string name="choose_picture">Choose a Picture</string>
     <string name="detail_story">Story Detail</string>
+    <string name="no_data_found">No Data Found</string>
 
 </resources>

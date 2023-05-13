@@ -47,11 +47,9 @@ class ListStoryViewModel(private val userPreference: UserPreference):ViewModel()
                     }
                 }
             }
-
             override fun onFailure(call: Call<AllStoriesResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
-
         })
     }
 

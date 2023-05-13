@@ -11,6 +11,7 @@
     <string name="name">Nama</string>
     <string name="login_message">Sudah memiliki akun? Masuk</string>
     <string name="empty_error">Silahkan isi kolom ini</string>
+    <string name="empty_description">Deskripsi tidak boleh kosong</string>
     <string name="password_validation">Harus lebih dari 7 karakter</string>
     <string name="email_validation">Entri alamat email yang valid</string>
     <string name="invalid">Email atau Password salah</string>
@@ -29,5 +30,7 @@
     <string name="upload_success">Berhasil diupload</string>
     <string name="choose_picture">Pilih Gambar</string>
     <string name="detail_story">Detail Cerita</string>
+    <string name="no_data_found">Data Tidak Ditemukan</string>
+
 
 </resources>

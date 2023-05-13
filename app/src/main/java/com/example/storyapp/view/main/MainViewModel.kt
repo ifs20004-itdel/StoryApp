@@ -17,6 +17,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(private val pref: UserPreference):ViewModel() {
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading :LiveData<Boolean> = _isLoading
+
     fun getUser(): LiveData<UserModel>{
         return pref.getUser().asLiveData()
     }
@@ -32,6 +36,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
     }
 
     fun validateLogin(email:String, password: String, stateCallback: AuthenticationCallback){
+        _isLoading.value = true
         val apiService = ApiConfig().getApiService()
         val json = """
             {
@@ -43,6 +48,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
         val login = apiService.loginUser(body)
         login.enqueue(object :Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                _isLoading.value = false
                 if(response.isSuccessful){
                     val responseBody = response.body()
                     if(responseBody !=null && !responseBody.error){
@@ -71,6 +77,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
     }
 
     fun validateRegister(name:String, email:String, password: String, stateCallback: AuthenticationCallback){
+        _isLoading.value = true
         val apiService = ApiConfig().getApiService()
         val json = """
             { 
@@ -86,6 +93,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
                 call: Call<RegisterAndUploadResponse>,
                 response: Response<RegisterAndUploadResponse>
             ) {
+                _isLoading.value = false
                 if(response.isSuccessful){
                     val responseBody = response.body()
                     if(responseBody!=null && !responseBody.error){

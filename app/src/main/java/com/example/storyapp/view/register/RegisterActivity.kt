@@ -67,6 +67,10 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
+
+        mainViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
     }
 
     private fun setupAction(){
@@ -81,16 +85,24 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
                 email.isEmpty()->{
                     binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.empty_error)
                 }
-                !email.isValidEmail()->{
-                    binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.email_validation)
-                }
                 password.isEmpty()->{
                     binding?.textInputLayoutPasswordRegister?.error = resources.getString(R.string.empty_error)
+                }
+                !email.isValidEmail()->{
+                    binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.email_validation)
                 }
                 else->{
                     mainViewModel.validateRegister(name, email, password, this)
                 }
             }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean){
+        if(isLoading){
+            binding?.progressBar?.visibility  = View.VISIBLE
+        }else{
+            binding?.progressBar?.visibility = View.GONE
         }
     }
 

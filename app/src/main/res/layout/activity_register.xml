@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         android:paddingHorizontal="36dp"
-        android:paddingTop="40dp"
+        android:paddingTop="8dp"
         >
         <TextView
             android:id="@+id/register_title"
@@ -118,6 +118,19 @@
         android:text="@string/login_message"
         android:textColor="@color/white"
         android:textSize="12sp"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        tools:visibility="visible"
         />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

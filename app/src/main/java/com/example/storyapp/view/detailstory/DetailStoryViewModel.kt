@@ -36,15 +36,13 @@ class DetailStoryViewModel(private val userPreference: UserPreference):ViewModel
                     if(responseBody !=null){
                         _detail.value = responseBody.story
                     }else{
-                        Log.e(TAG, "onFailure: ${response.message()}")
+                        Log.e(TAG, response.message())
                     }
                 }
             }
-
             override fun onFailure(call: Call<DetailStoryResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
-
         })
     }
     companion object{

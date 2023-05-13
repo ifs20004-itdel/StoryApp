@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".view.main.MainActivity"
-    android:background="@drawable/app_theme_potrait">
+    android:background="@drawable/app_theme_potrait"
+    >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/app_logo"
         android:layout_width="124dp"
@@ -18,11 +20,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <ImageView
+        android:id="@+id/dummy_logo"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <LinearLayout
         android:id="@+id/login_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dummy_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -57,7 +68,6 @@
                 android:hint="@string/email"
                 android:textColorHint="@color/white"
                 android:inputType="textEmailAddress"
-                android:scrollHorizontally="true"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,7 +86,6 @@
                 android:hint="@string/password"
                 android:textColorHint="@color/white"
                 android:inputType="textPassword"
-                android:scrollHorizontally="true"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,4 +110,16 @@
         android:textSize="12sp"
         />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 </androidx.constraintlayout.motion.widget.MotionLayout>

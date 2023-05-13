@@ -62,7 +62,9 @@ class AddStoryActivity : AppCompatActivity() {
             startGallery()
         }
         supportActionBar?.title = resources.getString(R.string.upload)
+
     }
+
 
     private fun setupViewModel(){
             addStoryViewModel =  ViewModelProvider(
@@ -78,6 +80,9 @@ class AddStoryActivity : AppCompatActivity() {
             token = userModel.token
         }
         val description = addStoryBinding?.addDescription?.text.toString()
+        if(description.isEmpty()){
+            Toast.makeText(this@AddStoryActivity, resources.getString(R.string.empty_description), Toast.LENGTH_SHORT).show()
+        }
         if(getFile !=null){
             val file =  reduceFileImage(getFile as File)
             val requestDescription = description.toRequestBody("text/plain".toMediaType())
@@ -154,7 +159,6 @@ class AddStoryActivity : AppCompatActivity() {
     ){
         if(it.resultCode== RESULT_OK){
             val myFile = File(currentPhotoPath)
-
             myFile.let {
                     file->
                 getFile = file
@@ -177,6 +181,4 @@ class AddStoryActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

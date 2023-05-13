@@ -32,12 +32,11 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-        canScrollHorizontally(1)
     }
     private fun init()
     {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black)as Drawable
-
+        setOnTouchListener(this)
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
