@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.*
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -24,7 +23,6 @@ import com.example.storyapp.utils.generateLinks
 import com.example.storyapp.utils.isValidEmail
 import com.example.storyapp.view.main.MainActivity
 import com.example.storyapp.view.main.MainViewModel
-import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -50,7 +48,6 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
     }
 
     private fun setupView(){
-        @Suppress("DEPRECATION")
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         }else{

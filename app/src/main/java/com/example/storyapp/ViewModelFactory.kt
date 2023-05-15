@@ -9,7 +9,6 @@ import com.example.storyapp.view.liststory.ListStoryViewModel
 import com.example.storyapp.view.main.MainViewModel
 
 class ViewModelFactory(private val pref: UserPreference): ViewModelProvider.NewInstanceFactory() {
-    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
             modelClass.isAssignableFrom(MainViewModel::class.java)->{
