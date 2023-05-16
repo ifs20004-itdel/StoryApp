@@ -1,5 +1,6 @@
 package com.example.storyapp.utils
 
 interface AuthenticationCallback {
-    fun onError(isLogin:Boolean?)
+
+    fun onError(isLogin:Boolean?, message: String?)
 }

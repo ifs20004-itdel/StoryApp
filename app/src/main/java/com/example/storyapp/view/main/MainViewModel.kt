@@ -12,6 +12,7 @@ import com.example.storyapp.utils.AuthenticationCallback
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,29 +50,29 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
         login.enqueue(object :Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 _isLoading.value = false
+                val responseBody = response.body()
                 if(response.isSuccessful){
-                    val responseBody = response.body()
                     if(responseBody !=null && !responseBody.error){
                         login()
-                        val logged = responseBody.loginResult
-                        saveUser(
-                            UserModel(
-                                logged.userId,
-                                logged.name,
-                                logged.token,
-                                true
+                            val logged = responseBody.loginResult
+                            saveUser(
+                                UserModel(
+                                    logged.userId,
+                                    logged.name,
+                                    logged.token,
+                                    true
+                                )
                             )
-                        )
-                    }else{
-                        stateCallback.onError(true)
                     }
                 }else{
-                    stateCallback.onError(true)
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let { JSONObject(it).getString("message") }
+                    stateCallback.onError(true, errorMessage)
                 }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
-                stateCallback.onError(true)
+                stateCallback.onError(true, t.message.toString())
             }
         })
     }
@@ -97,17 +98,17 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
                 if(response.isSuccessful){
                     val responseBody = response.body()
                     if(responseBody!=null && !responseBody.error){
-                        stateCallback.onError(false)
-                    }else{
-                        stateCallback.onError(true)
+                        stateCallback.onError(false, responseBody.message)
                     }
                 }else{
-                    stateCallback.onError(true)
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody?.let { JSONObject(it).getString("message") }
+                    stateCallback.onError(true, errorMessage)
                 }
             }
             override fun onFailure(call: Call<RegisterAndUploadResponse>, t: Throwable) {
                 Log.e(ContentValues.TAG,"OnFailure: ${t.message.toString()}")
-                stateCallback.onError(true)
+                stateCallback.onError(true, t.message.toString())
             }
         })
     }

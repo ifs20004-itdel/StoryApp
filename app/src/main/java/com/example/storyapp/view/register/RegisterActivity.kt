@@ -24,6 +24,7 @@ import com.example.storyapp.utils.isValidEmail
 import com.example.storyapp.view.main.MainActivity
 import com.example.storyapp.view.main.MainViewModel
 
+
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
@@ -31,6 +32,7 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding?.root)
@@ -78,6 +80,7 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
             when{
                 name.isEmpty()->{
                     binding?.textInputLayoutNameRegister?.error = resources.getString(R.string.empty_error)
+                    mainViewModel.validateRegister(name, email, password, this)
                 }
                 email.isEmpty()->{
                     binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.empty_error)
@@ -87,6 +90,7 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
                 }
                 !email.isValidEmail()->{
                     binding?.textInputLayoutEmailRegister?.error = resources.getString(R.string.email_validation)
+                    mainViewModel.validateRegister(name, email, password, this)
                 }
                 else->{
                     mainViewModel.validateRegister(name, email, password, this)
@@ -103,9 +107,9 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
         }
     }
 
-    override fun onError(isLogin: Boolean?) {
+    override fun onError(isLogin: Boolean?, message: String?) {
         if(isLogin == true){
-            Toast.makeText(this@RegisterActivity, resources.getString(R.string.register_fail), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@RegisterActivity, message, Toast.LENGTH_SHORT).show()
         }else{
             val builder = AlertDialog.Builder(this@RegisterActivity)
             builder

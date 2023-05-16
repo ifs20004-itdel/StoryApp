@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
         }
     }
 
-    override fun onError(isLogin: Boolean?) {
-        Toast.makeText(this@MainActivity,resources.getString(R.string.invalid), Toast.LENGTH_SHORT).show()
+    override fun onError(isLogin: Boolean?, message: String?) {
+        Toast.makeText(this@MainActivity, message.toString(), Toast.LENGTH_SHORT).show()
     }
 }
