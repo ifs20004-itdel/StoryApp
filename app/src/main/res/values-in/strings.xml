@@ -31,6 +31,10 @@
     <string name="choose_picture">Pilih Gambar</string>
     <string name="detail_story">Detail Cerita</string>
     <string name="no_data_found">Data Tidak Ditemukan</string>
-
+    <string name="title_activity_maps">Maps Activity</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 
 </resources>

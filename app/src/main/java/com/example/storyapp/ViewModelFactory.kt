@@ -7,6 +7,7 @@ import com.example.storyapp.view.addstory.AddStoryViewModel
 import com.example.storyapp.view.detailstory.DetailStoryViewModel
 import com.example.storyapp.view.liststory.ListStoryViewModel
 import com.example.storyapp.view.main.MainViewModel
+import com.example.storyapp.view.maps.MapViewModel
 
 class ViewModelFactory(private val pref: UserPreference): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,6 +23,9 @@ class ViewModelFactory(private val pref: UserPreference): ViewModelProvider.NewI
             }
             modelClass.isAssignableFrom(AddStoryViewModel::class.java)->{
                 AddStoryViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(MapViewModel::class.java)->{
+                MapViewModel(pref) as T
             }
             else-> throw IllegalArgumentException("Unknown ViewModel class: "+modelClass.name)
         }

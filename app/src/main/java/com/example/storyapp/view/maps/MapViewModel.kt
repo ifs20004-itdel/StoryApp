@@ -1,34 +1,31 @@
-package com.example.storyapp.view.liststory
+package com.example.storyapp.view.maps
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.example.storyapp.data.response.AllStoriesResponse
+import com.example.storyapp.data.response.StoryResponse
 import com.example.storyapp.data.retrofit.ApiConfig
 import com.example.storyapp.model.UserModel
 import com.example.storyapp.model.UserPreference
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListStoryViewModel(private val userPreference: UserPreference):ViewModel() {
+class MapViewModel(private val userPreference: UserPreference):ViewModel() {
 
-    private val _story = MutableLiveData<AllStoriesResponse?>()
-    val story: LiveData<AllStoriesResponse?> = _story
-
-    fun logout(){
-        viewModelScope.launch {
-            userPreference.logout()
-        }
-    }
+    private val _story = MutableLiveData<List<StoryResponse>>()
+    val story: LiveData<List<StoryResponse>> = _story
 
     fun getUser():LiveData<UserModel>{
         return userPreference.getUser().asLiveData()
     }
 
-    fun getAllStories(token: String){
+    fun getAllLatLng(token: String){
         val client = ApiConfig().getApiService()
-        val getAllStories = client.getAllStories("Bearer $token",null, null, null)
+        val getAllStories = client.getAllStories("Bearer $token",null, null, 1)
         getAllStories.enqueue(object :Callback<AllStoriesResponse>{
             override fun onResponse(
                 call: Call<AllStoriesResponse>,
@@ -37,7 +34,7 @@ class ListStoryViewModel(private val userPreference: UserPreference):ViewModel()
                 if(response.isSuccessful){
                     val responseBody = response.body()
                     if(responseBody !=null){
-                        _story.value = responseBody
+                        _story.value = responseBody.listStory
                     }else{
                         Log.e(TAG, "onFailure: ${response.message()}")
                     }
@@ -50,6 +47,6 @@ class ListStoryViewModel(private val userPreference: UserPreference):ViewModel()
     }
 
     companion object{
-        private const val TAG = ".ListStoryViewModel"
+        private const val TAG = ".MapViewModel"
     }
 }

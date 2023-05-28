@@ -22,6 +22,7 @@ import com.example.storyapp.model.UserPreference
 import com.example.storyapp.view.addstory.AddStoryActivity
 import com.example.storyapp.view.detailstory.DetailStoryActivity
 import com.example.storyapp.view.main.MainActivity
+import com.example.storyapp.view.maps.MapsActivity
 import com.faltenreich.skeletonlayout.Skeleton
 
 
@@ -69,6 +70,10 @@ class ListStoryActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.maps->{
+                val intent = Intent(this@ListStoryActivity, MapsActivity::class.java)
+                startActivity(intent)
+            }
             R.id.logout->{
                 listStoryViewModel.logout()
                 val intent = Intent(this@ListStoryActivity, MainActivity::class.java)
@@ -90,16 +95,18 @@ class ListStoryActivity : AppCompatActivity() {
             listStoryViewModel.getAllStories(result.token)
         }
 
-        listStoryViewModel.story.observe(this){ result ->
-            if(result !=null){
-                setDataStory(result)
-            }
+        listStoryViewModel.story.observe(this){
+                result ->
+                if(result !=null){
+                    setDataStory(result)
+                }
         }
     }
 
     private fun setDataStory(listStory:AllStoriesResponse){
         val adapter = ListStoryAdapter(listStory.listStory)
         binding?.rvListStory?.adapter = adapter
+
         adapter.setOnItemClickCallback(object :ListStoryAdapter.OnItemClickCallback{
             override fun onItemClicked(storyResponse: StoryResponse) {
                 val intent = Intent(this@ListStoryActivity,DetailStoryActivity::class.java)
