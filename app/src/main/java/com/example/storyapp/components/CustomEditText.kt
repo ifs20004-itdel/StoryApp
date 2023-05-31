@@ -3,14 +3,13 @@ package com.example.storyapp.components
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.example.storyapp.R
 import com.example.storyapp.utils.isValidEmail
 import com.google.android.material.textfield.TextInputLayout
@@ -37,29 +36,23 @@ class CustomEditText: AppCompatEditText, View.OnTouchListener {
     {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black)as Drawable
         setOnTouchListener(this)
-        addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val parentLayout = parent.parent as TextInputLayout
-                if(p0.toString().isNotEmpty())
-                {
-                    showClearButton()
-                    if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)){
-                        if(!p0.isValidEmail()) parentLayout.error = resources.getString(R.string.email_validation) else parentLayout.error = null
-                    }else if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) && p0.toString().length<8){
-                        parentLayout.error = resources.getString(R.string.password_validation)
-                    }else{
-                        parentLayout.error = null
-                    }
-                } else {
-                    hideClearButton()
-                    parentLayout.error = resources.getString(R.string.empty_error)
+        doOnTextChanged { text, _, _, _ ->
+            val parentLayout = parent.parent as TextInputLayout
+            if(text.toString().isNotEmpty())
+            {
+                showClearButton()
+                if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)){
+                    if(!text.isValidEmail()) parentLayout.error = resources.getString(R.string.email_validation) else parentLayout.error = null
+                }else if(inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) && text.toString().length<8){
+                    parentLayout.error = resources.getString(R.string.password_validation)
+                }else{
+                    parentLayout.error = null
                 }
+            } else {
+                hideClearButton()
+                parentLayout.error = resources.getString(R.string.empty_error)
             }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
+        }
     }
 
     private fun showClearButton(){

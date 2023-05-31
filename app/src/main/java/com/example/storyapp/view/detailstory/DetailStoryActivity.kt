@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
 import com.example.storyapp.ViewModelFactory
-import com.example.storyapp.data.response.StoryResponse
+import com.example.storyapp.data.network.response.StoryResponse
 import com.example.storyapp.databinding.ActivityDetailStoryBinding
 import com.example.storyapp.model.UserPreference
 import com.example.storyapp.utils.withDateFormat
@@ -19,7 +19,7 @@ import com.faltenreich.skeletonlayout.Skeleton
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class DetailStoryActivity : AppCompatActivity() {
-    private var detailStoryBinding: ActivityDetailStoryBinding? = null
+    private var detailStoryBinding: ActivityDetailStoryBinding? =null
     private lateinit var skeleton: Skeleton
     private lateinit var detailStoryViewModel: DetailStoryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class DetailStoryActivity : AppCompatActivity() {
 
     private fun setupViewModel(){
         detailStoryViewModel = ViewModelProvider(
-            this, ViewModelFactory(UserPreference.getInstance(dataStore))
+            this, ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[DetailStoryViewModel::class.java]
 
         detailStoryViewModel.getUser().observe(this){
@@ -64,5 +64,4 @@ class DetailStoryActivity : AppCompatActivity() {
         detailStoryBinding?.detailDate?.text = storyResponse.createdAt.withDateFormat()
         detailStoryBinding?.detailDescription?.text = storyResponse.description
     }
-
 }

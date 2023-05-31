@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
         setupAction()
 
     }
-
     private fun setupView(){
         @Suppress("DEPRECATION")
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
     private fun setupViewModel(){
         mainViewModel =  ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[MainViewModel::class.java]
 
         mainViewModel.getUser().observe(this){
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity(), AuthenticationCallback{
             val password = binding.loginPassword.text.toString()
             when{
                 email.isEmpty()->{
-                    binding.textInputLayoutEmail?.error = resources.getString(R.string.empty_error)
+                    binding.textInputLayoutEmail.error = resources.getString(R.string.empty_error)
                 }
                 password.isEmpty()->{
                     binding.textInputLayoutPassword.error = resources.getString(R.string.empty_error)

@@ -3,9 +3,9 @@ package com.example.storyapp.view.main
 import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.storyapp.data.response.LoginResponse
-import com.example.storyapp.data.response.RegisterAndUploadResponse
-import com.example.storyapp.data.retrofit.ApiConfig
+import com.example.storyapp.data.network.response.LoginResponse
+import com.example.storyapp.data.network.response.RegisterAndUploadResponse
+import com.example.storyapp.data.network.retrofit.ApiConfig
 import com.example.storyapp.model.UserModel
 import com.example.storyapp.model.UserPreference
 import com.example.storyapp.utils.AuthenticationCallback
@@ -38,7 +38,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
 
     fun validateLogin(email:String, password: String, stateCallback: AuthenticationCallback){
         _isLoading.value = true
-        val apiService = ApiConfig().getApiService()
+        val apiService = ApiConfig.getApiService()
         val json = """
             {
             "email": "$email",
@@ -79,7 +79,7 @@ class MainViewModel(private val pref: UserPreference):ViewModel() {
 
     fun validateRegister(name:String, email:String, password: String, stateCallback: AuthenticationCallback){
         _isLoading.value = true
-        val apiService = ApiConfig().getApiService()
+        val apiService = ApiConfig.getApiService()
         val json = """
             { 
                 "name" : "$name",

@@ -16,7 +16,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.R
 import com.example.storyapp.ViewModelFactory
-import com.example.storyapp.data.response.StoryResponse
+import com.example.storyapp.data.network.response.StoryResponse
 import com.example.storyapp.databinding.ActivityMapsBinding
 import com.example.storyapp.model.UserPreference
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.runBlocking
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -44,7 +45,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -96,12 +96,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupViewModel(){
         mapViewModel =  ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[MapViewModel::class.java]
 
         mapViewModel.getUser().observe(this){
                 result ->
-            mapViewModel.getAllLatLng(result.token)
+            runBlocking {
+                mapViewModel.getAllLatLng(result.token)
+            }
         }
 
         mapViewModel.story.observe(this){
@@ -125,7 +127,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 bounds,
                 resources.displayMetrics.widthPixels,
                 resources.displayMetrics.heightPixels,
-                300
+                100
             )
         )
     }

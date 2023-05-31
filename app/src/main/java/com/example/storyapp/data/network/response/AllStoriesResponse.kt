@@ -1,14 +1,14 @@
-package com.example.storyapp.data.response
+package com.example.storyapp.data.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DetailStoryResponse (
+data class AllStoriesResponse (
     @field:SerializedName("error")
     val error: Boolean,
 
     @field:SerializedName("message")
     val message: String,
 
-    @field:SerializedName("story")
-    val story: StoryResponse
+    @field:SerializedName("listStory")
+    val listStory: List<StoryResponse>
     )

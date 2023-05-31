@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.storyapp.data.response.DetailStoryResponse
-import com.example.storyapp.data.response.StoryResponse
-import com.example.storyapp.data.retrofit.ApiConfig
+import com.example.storyapp.data.network.response.DetailStoryResponse
+import com.example.storyapp.data.network.response.StoryResponse
+import com.example.storyapp.data.network.retrofit.ApiConfig
 import com.example.storyapp.model.UserModel
 import com.example.storyapp.model.UserPreference
 import retrofit2.Call
@@ -24,7 +24,7 @@ class DetailStoryViewModel(private val userPreference: UserPreference):ViewModel
     }
 
     fun getStoryDetail(id: String, token: String){
-        val client = ApiConfig().getApiService()
+        val client = ApiConfig.getApiService()
         val getStoryDetail = client.getDetailStory("Bearer $token", id)
         getStoryDetail.enqueue(object : Callback<DetailStoryResponse>{
             override fun onResponse(

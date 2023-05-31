@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp.R
 import com.example.storyapp.ViewModelFactory
-import com.example.storyapp.data.response.AllStoriesResponse
-import com.example.storyapp.data.response.StoryResponse
+import com.example.storyapp.data.entity.UserStory
 import com.example.storyapp.databinding.ActivityListStoryBinding
 import com.example.storyapp.model.UserPreference
 import com.example.storyapp.view.addstory.AddStoryActivity
@@ -24,7 +23,6 @@ import com.example.storyapp.view.detailstory.DetailStoryActivity
 import com.example.storyapp.view.main.MainActivity
 import com.example.storyapp.view.maps.MapsActivity
 import com.faltenreich.skeletonlayout.Skeleton
-
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -41,7 +39,6 @@ class ListStoryActivity : AppCompatActivity() {
         skeleton.showSkeleton()
         setupViewModel()
 
-        @Suppress("DEPRECATION")
         val handler = Handler()
         handler.postDelayed({
             skeleton.showOriginal()
@@ -87,28 +84,28 @@ class ListStoryActivity : AppCompatActivity() {
     private fun setupViewModel(){
         listStoryViewModel =  ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[ListStoryViewModel::class.java]
-
         listStoryViewModel.getUser().observe(this){
             result ->
-            listStoryViewModel.getAllStories(result.token)
-        }
-
-        listStoryViewModel.story.observe(this){
-                result ->
-                if(result !=null){
-                    setDataStory(result)
-                }
+            if(result!=null){
+                getData(result.token)
+            }
         }
     }
 
-    private fun setDataStory(listStory:AllStoriesResponse){
-        val adapter = ListStoryAdapter(listStory.listStory)
-        binding?.rvListStory?.adapter = adapter
-
+    private fun getData(token: String){
+        val adapter = ListStoryAdapter()
+        binding?.rvListStory?.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                adapter.retry()
+            }
+        )
+        listStoryViewModel.getAllStories("Bearer $token").observe(this){
+            adapter.submitData(lifecycle,it)
+        }
         adapter.setOnItemClickCallback(object :ListStoryAdapter.OnItemClickCallback{
-            override fun onItemClicked(storyResponse: StoryResponse) {
+            override fun onItemClicked(storyResponse: UserStory) {
                 val intent = Intent(this@ListStoryActivity,DetailStoryActivity::class.java)
                 intent.putExtra("id", storyResponse.id)
                 startActivity(intent)

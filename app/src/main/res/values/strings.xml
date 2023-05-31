@@ -6,16 +6,13 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="register_message">New User? Register</string>
-    <string name="required">*required</string>
     <string name="name">Name</string>
     <string name="login_message">Already have an account? Login</string>
     <string name="empty_error">Please fill out this field</string>
     <string name="empty_description">Description can\'t be empty</string>
     <string name="password_validation">Must be more than 7 characters</string>
     <string name="email_validation">Enter a valid email address</string>
-    <string name="invalid">Email or Password wrong</string>
     <string name="logout">Logout</string>
-    <string name="register_fail">Registration Failed! Please try again.</string>
     <string name="register_success">Your registration has been successful</string>
     <string name="success">Congratulations!</string>
     <string name="date">Date</string>
@@ -27,13 +24,16 @@
     <string name="upload">Upload</string>
     <string name="input_picture">Please enter the image file first! </string>
     <string name="upload_success">Upload success</string>
-    <string name="choose_picture">Choose a Picture</string>
     <string name="detail_story">Story Detail</string>
-    <string name="no_data_found">No Data Found</string>
     <string name="title_activity_maps">Maps Activity</string>
     <string name="normal_type">Normal</string>
     <string name="satellite_type">Satellite</string>
     <string name="terrain_type">Terrain</string>
     <string name="hybrid_type">Hybrid</string>
+    <string name="user_location">User Location</string>
+    <string name="retry">Try Again</string>
+    <string name="location">Location:</string>
+    <string name="story_list_image">Story List Images</string>
+    <string name="story_image">Story Image</string>
 
 </resources>

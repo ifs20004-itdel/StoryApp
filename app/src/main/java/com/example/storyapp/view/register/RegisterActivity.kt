@@ -64,14 +64,13 @@ class RegisterActivity : AppCompatActivity(), AuthenticationCallback {
     private fun setupViewModel(){
         mainViewModel =  ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(UserPreference.getInstance(dataStore), this)
         )[MainViewModel::class.java]
 
         mainViewModel.isLoading.observe(this){
             showLoading(it)
         }
     }
-
     private fun setupAction(){
         binding?.btnRegister?.setOnClickListener{
             val name = binding?.registerName?.text.toString()

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.faltenreich.skeletonlayout.SkeletonLayout
+<com.faltenreich.skeletonlayout.SkeletonLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/skeleton_detail_story"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:layout_marginEnd="12dp"
             tools:src="@tools:sample/avatars"
             android:background="@drawable/background_border"
-            />
+            android:contentDescription="@+string/gallery" />
 
         <TextView
             android:id="@+id/detail_name"
